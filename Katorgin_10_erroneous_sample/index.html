@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Тестирование пользователя с использованием технологии AJAX</title>
+<link rel=stylesheet href="../lab.css">
+<script>
+    var name='', answer='',
+    xhr=new XMLHttpRequest();
+    function subm1() {
+        name=prompt('Введите имя: ','')
+        if(name) {
+            xhr.open('GET','http://localhost:9999/cgi-bin/testing.py?r='+ Math.random()+'&name='+name);
+            xhr.send(null);
+        }
+        else alert("Имя не введено");
+    }
+    function subm2() {
+        answer=prompt('Введите ответ в виде трех двоичных цифр','');
+        answer=document.getElementById('answer').value
+        if (answer) {
+            xhr.open('GET','http://localhost:9999/cgi-bin/testing.py?r='+ Math.random()+'&answer='+answer);
+            xhr.send(null);
+        }
+        else alert("Ответ не указан");
+    }
+    xhr.onerror=function(e) {
+        myDiv.innerHTML+="Ошибка получения данных из сервера";
+    }
+    xhr.onload=function() {
+        myDiv=document.getElementById("div");
+        resp=this.responseText;
+        myDiv.innerHTML="<p><span style='color:blue;font-size:5.5mm'>"+resp+ "</span>";
+    }
+
+</script>
+</head>
+<body>
+<h1>Тестирование</h1>
+<button onclick="subm1()">Начать <br>тестирование</button> <br><br>
+Ответ:
+<input type="text" name="enter" class="enter" value="" id="answer"/><br><br>
+<button onclick="subm2()">Ответить</button>
+<div id="div" />
+</body>
+</html>
+
